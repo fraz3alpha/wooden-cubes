@@ -1,0 +1,93 @@
+<svg id="main"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.1"
+    width="500"
+    height="2500"
+    viewBox="0 0 500 2500"
+    onload="startup(evt)">
+
+<script>
+    <![CDATA[
+        var startup = function(evt) {
+            var width;
+            var svgNS = "http://www.w3.org/2000/svg";
+            var square_size = 96 // 25.4mm
+            var square_x_padding = 0
+            var square_y_padding = 4
+            var text_size = 56.693 // 15mm
+            var hanging_letter_multiplication_factor = 1.17
+
+            var max_atomic_number = 118
+
+            for (i=1; i<=max_atomic_number; i++) {
+            //for (i=0; i<1; i++) {
+
+              var base_x = ((i-1)%5) * (square_size + square_x_padding)
+              var base_y = (Math.floor((i-1)/5)) * (square_size + square_y_padding)
+
+              var rect = document.createElementNS(svgNS, 'rect');
+              rect.setAttribute('x', base_x);
+              rect.setAttribute('y', base_y);
+              rect.setAttribute('width', square_size);
+              rect.setAttribute('height', square_size);
+              rect.setAttribute('fill', 'none');
+              rect.setAttribute('stroke', 'black');
+              rect.setAttribute('stroke-width', '2');
+              document.getElementById("main").appendChild(rect);
+
+              var element_symbol = ""+i
+              var txtNode = document.createTextNode(element_symbol);
+              text = document.createElementNS(svgNS, "text");
+
+              text.setAttributeNS(null, "x", base_x);
+              letter_baseline = 68.3;
+              // if > 100 make the font a bit smaller and alter the baseline.
+              if (i >= 100) {
+                text_size = 56.693 * 0.85 // 15mm
+                letter_baseline = 64
+              }
+
+              text.setAttributeNS(null, "y", base_y+letter_baseline);
+              text.setAttributeNS(null, "fill", "black");
+              // The essential style parts we need for Fusion 360 are:
+              // font-size:58.20833206px;font-family:Helvetica;font-weight:bold
+              text.style = "font-size:"+text_size+";font-family:Helvetica;font-weight:bold;alignment-baseline:alphabetic";
+              //text.style = "font-size:58.20833206px;font-family:Helvetica;font-weight:bold;font-feature-settings: normal; text-align: start; letter-spacing: 0px; word-spacing: 0px; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width: 0.264583;"
+              text.appendChild(txtNode);
+
+              // We need to add it to the DOM to get the width
+              document.getElementById("main").appendChild(text);
+              width = text.getComputedTextLength();
+              // And now we can move it to where it needs to go
+              text.setAttributeNS(null,"x", base_x + (square_size/2) - (width/2));
+
+//<rect x="0" y="0" width="96" height="96" fill="none" stroke="black"/><text x="26.983108520507812" y="68.3" fill="black" style="font-size:56.68px;font-family:Helvetica;font-weight:bold;font-feature-settings: normal; text-align: start; letter-spacing: 0px; word-spacing: 0px; writing-mode: lr-tb; text-anchor: start; fill: rgb(0, 0, 0); fill-opacity: 1; stroke: none; stroke-width: 1;">H</text></svg>
+
+              // Need to search and replace (with appropriate text size):
+              // font-size: 56.693px; font-family: Helvetica; font-weight: bold; alignment-baseline: alphabetic;
+              // font-size:56.693px;font-family:Helvetica;font-weight:bold;alignment-baseline:alphabetic;
+
+
+              var left_line = document.createElementNS(svgNS, 'line');
+              left_line.setAttribute('x1', base_x + square_size/2 - width/2);
+              left_line.setAttribute('y1', base_y);
+              left_line.setAttribute('x2', base_x + square_size/2 - width/2);
+              left_line.setAttribute('y2', base_y+square_size*0.6);
+              left_line.setAttribute('stroke', 'blue');
+              document.getElementById("main").appendChild(left_line);
+
+              var right_line = document.createElementNS(svgNS, 'line');
+              right_line.setAttribute('x1', base_x + square_size/2 + width/2);
+              right_line.setAttribute('y1', base_y);
+              right_line.setAttribute('x2', base_x + square_size/2 + width/2);
+              right_line.setAttribute('y2', base_y+square_size*0.6);
+              right_line.setAttribute('stroke', 'blue');
+              document.getElementById("main").appendChild(right_line);
+
+            }
+
+        }
+    //]]>
+</script>
+</svg>
