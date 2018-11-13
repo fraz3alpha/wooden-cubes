@@ -18,9 +18,10 @@
             var text_size = 56.693 // 15mm
             var hanging_letter_multiplication_factor = 1.17
 
+            var min_atomic_number = 101
             var max_atomic_number = 118
 
-            for (i=1; i<=max_atomic_number; i++) {
+            for (i=min_atomic_number; i<=max_atomic_number; i++) {
             //for (i=0; i<1; i++) {
 
               var base_x = ((i-1)%5) * (square_size + square_x_padding)
